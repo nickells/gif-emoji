@@ -23,8 +23,10 @@
     "nodemon": "^1.18.9"
   },
   "dependencies": {
+    "canvas": "^2.2.0",
     "emoji-name-map": "^1.2.7",
     "emoji-unicode": "^1.0.9",
+    "gifencoder": "^1.1.0",
     "gifshot": "^0.4.5",
     "puppeteer": "^1.11.0"
   }

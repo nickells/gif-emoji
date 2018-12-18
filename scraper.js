@@ -30,7 +30,7 @@ const go = async () => {
 
   emoji.forEach(datum => {
     console.log(datum)
-    fs.writeFile('images/' + datum.code, datum.data, () => { console.log('wrote a file') })
+    fs.writeFile('images/' + datum.code + '.png', Buffer.from(datum.data.replace(/^data:image\/\w+;base64,/, ''), 'base64'))
   })
 
   await browser.close()
