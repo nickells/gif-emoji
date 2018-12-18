@@ -12,7 +12,7 @@ const go = async () => {
     timeout: 0
   })
   console.log('Got to URL')
-  // Get the "viewport" of the page, as reported by the page.
+
   const emoji = await page.evaluate(() => {
     // First three rows are headers and stuff
     const rows = [...document.getElementsByTagName('tr')]
