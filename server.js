@@ -16,27 +16,36 @@ const index = data.reduce((map, item) => {
   return map
 }, {})
 
+const backgroundColor = 0xffffff
+
 app.get('/generate/:string', async (req, res) => {
   console.log(req.params.string)
-  console.log(emojiMap.get(req.params.string))
-  const code = emojiUnicode(emojiMap.get(req.params.string))
-  const data = index[code]
+
+  const names = req.params.string.split('+')
 
   const encoder = new GIFEncoder(72, 72)
   encoder.start()
   encoder.setRepeat(0) // 0 for repeat, -1 for no-repeat
   encoder.setDelay(500) // frame delay in ms
   encoder.setQuality(10) // image quality. 10 is default.
+  // encoder.setTransparent(backgroundColor) // UNCOMMENT FOR TRANSPARENCY
 
   const canvas = createCanvas(72, 72)
   const ctx = canvas.getContext('2d')
 
-  // TODO: See if raw base64 data is any quicker
-  const img = await loadImage(`./images/png/${code}.png`)
-  ctx.fillStyle = '#FFFFFF'
-  ctx.fillRect(0, 0, 72, 72)
-  ctx.drawImage(img, 0, 0, 72, 72)
-  encoder.addFrame(ctx)
+  for (let name of names) {
+    const code = emojiUnicode(emojiMap.get(name) || name)
+
+    // TODO: See if raw base64 data is any quicker
+    // const data = index[code]
+
+    const img = await loadImage(`./images/png/${code}.png`)
+    ctx.clearRect(0, 0, 72, 72)
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, 72, 72)
+    ctx.drawImage(img, 0, 0, 72, 72)
+    encoder.addFrame(ctx)
+  }
 
   encoder.finish()
 
